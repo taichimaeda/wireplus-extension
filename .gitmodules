@@ -1,0 +1,3 @@
+[submodule "wireplus"]
+	path = wireplus
+	url = git@github.com:taichimaeda/wireplus.git

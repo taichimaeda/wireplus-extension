@@ -26,6 +26,11 @@
 				"command": "exampleExtension.showGraph",
 				"title": "Show graph in webview",
 				"category": "Show Graph"
+			},
+			{
+				"command": "exampleExtension.showDetail",
+				"title": "Show details in webview",
+				"category": "Show Detail"
 			}
 		],
 		"configuration": {

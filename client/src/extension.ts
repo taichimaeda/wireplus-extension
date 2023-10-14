@@ -13,19 +13,19 @@ import {
 
 let client: LanguageClient;
 
-export function activate(context: vscode.ExtensionContext) {
-	context.subscriptions.push(
-		vscode.commands.registerCommand('exampleExtension.showGraph', (wd, name) => {
-			const panel = vscode.window.createWebviewPanel(
-				'showGraph',
-				'Show Graph',
-				vscode.ViewColumn.One,
-				{ enableScripts: true },
-			);
-			exec(`wireplus graph . ${name}`, { cwd: wd },
-				(_, stdout, stderr) => {
-					console.log(stderr)
-					panel.webview.html = `<!DOCTYPE html>
+const showGraphCommand = vscode.commands.registerCommand(
+	'exampleExtension.showGraph',
+	(wd, name) => {
+		const panel = vscode.window.createWebviewPanel(
+			'showGraph',
+			'Show Graph',
+			vscode.ViewColumn.One,
+			{ enableScripts: true },
+		);
+		exec(`wireplus graph . ${name}`, { cwd: wd },
+			(_, stdout, stderr) => {
+				console.log(stderr)
+				panel.webview.html = `<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
@@ -34,12 +34,40 @@ export function activate(context: vscode.ExtensionContext) {
 	</head>
 	<body>
 		<pre><code>${stdout}</code></pre>
-		<div id="graph"></div>
 	</body>
 </html>`
-				});
-		})
-	);
+			});
+	});
+
+const showDetailCommand = vscode.commands.registerCommand(
+	'exampleExtension.showDetail',
+	(wd, name) => {
+		const panel = vscode.window.createWebviewPanel(
+			'showDetails',
+			'Show Details',
+			vscode.ViewColumn.One,
+			{ enableScripts: true },
+		);
+		exec(`wireplus detail . ${name}`, { cwd: wd },
+			(_, stdout, stderr) => {
+				console.log(stderr)
+				panel.webview.html = `<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Show Detail</title>
+	</head>
+	<body>
+		<pre><code>${stdout}</code></pre>
+	</body>
+</html>`
+			});
+	});
+
+export function activate(context: vscode.ExtensionContext) {
+	context.subscriptions.push(showGraphCommand);
+	context.subscriptions.push(showDetailCommand);
 
 	const serverOptions: ServerOptions = {
 		command: "wireplus",

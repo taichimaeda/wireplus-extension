@@ -3,8 +3,8 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 
-import { window, ExtensionContext } from 'vscode';
-
+import { exec } from 'child_process';
+import * as vscode from 'vscode';
 import {
 	LanguageClient,
 	LanguageClientOptions,
@@ -13,42 +13,52 @@ import {
 
 let client: LanguageClient;
 
-export function activate(context: ExtensionContext) {
-	// If the extension is launched in debug mode then the debug server options are used
-	// Otherwise the run options are used
+export function activate(context: vscode.ExtensionContext) {
+	context.subscriptions.push(
+		vscode.commands.registerCommand('exampleExtension.showGraph', (wd, name) => {
+			const panel = vscode.window.createWebviewPanel(
+				'showGraph',
+				'Show Graph',
+				vscode.ViewColumn.One,
+				{ enableScripts: true },
+			);
+			exec(`wireplus graph . ${name}`, { cwd: wd },
+				(_, stdout, stderr) => {
+					console.log(stderr)
+					panel.webview.html = `<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Show Graph</title>
+	</head>
+	<body>
+		<pre><code>${stdout}</code></pre>
+		<div id="graph"></div>
+	</body>
+</html>`
+				});
+		})
+	);
+
 	const serverOptions: ServerOptions = {
-		command: "go",
-		args: [
-			"run",
-			"/Users/taichimaeda/workspace/projects/freee/wireplus/cmd/wireplus/main.go",
-			'lsp',
-			'2>stderr.log',
-			"|",
-			"tee",
-			"/Users/taichimaeda/workspace/projects/freee/wireplus/stdout.log"
-		],
-		options: {
-			cwd: '/Users/taichimaeda/workspace/projects/freee/wireplus',
-			shell: true,
-		},
+		command: "wireplus",
+		args: ["lsp"],
+		// args: ["lsp", "|", "tee", "/Users/taichimaeda/workspace/projects/freee/wireplus/stdout.log"],
+		options: { shell: true },
 	};
 
-	// Options to control the language client
 	const clientOptions: LanguageClientOptions = {
-		// Register the server for plain text documents
 		documentSelector: [{ scheme: 'file', language: 'go' }],
-		outputChannel: window.createOutputChannel('Example Language Server'),
+		outputChannel: vscode.window.createOutputChannel('Example Language Server'),
 	};
 
-	// Create the language client and start the client.
 	client = new LanguageClient(
 		'languageServerExample',
 		'Language Server Example',
 		serverOptions,
 		clientOptions
 	);
-
-	// Start the client. This will also launch the server
 	client.start();
 }
 

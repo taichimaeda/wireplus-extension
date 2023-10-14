@@ -2,6 +2,24 @@
 	"version": "2.0.0",
 	"tasks": [
 		{
+			"label": "build",
+			"dependsOrder": "sequence",
+			"dependsOn": [
+				"go-install",
+				"npm-watch"
+			]
+		},
+		{
+			"label": "go-install",
+			"group": "build",
+			"type": "shell",
+			"command": "go build cmd/wireplus/main.go && mv -f main $GOPATH/bin/wireplus",
+			"options": {
+				"cwd": "${workspaceFolder}/../wireplus"
+			}
+		},
+		{
+			"label": "npm-compile",
 			"type": "npm",
 			"script": "compile",
 			"group": "build",
@@ -14,6 +32,7 @@
 			]
 		},
 		{
+			"label": "npm-watch",
 			"type": "npm",
 			"script": "watch",
 			"isBackground": true,

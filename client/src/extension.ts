@@ -12,20 +12,8 @@ import {
 } from 'vscode-languageclient/node';
 
 let client: LanguageClient;
-
-const showGraphCommand = vscode.commands.registerCommand(
-	'exampleExtension.showGraph',
-	(wd, name) => {
-		const panel = vscode.window.createWebviewPanel(
-			'showGraph',
-			'Show Graph',
-			vscode.ViewColumn.One,
-			{ enableScripts: true },
-		);
-		exec(`wireplus graph . ${name}`, { cwd: wd },
-			(_, stdout, stderr) => {
-				console.log(stderr)
-				panel.webview.html = `<!DOCTYPE html>
+const webviewTemplate = `
+<!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
@@ -33,35 +21,39 @@ const showGraphCommand = vscode.commands.registerCommand(
 		<title>Show Graph</title>
 	</head>
 	<body>
-		<pre><code>${stdout}</code></pre>
+		<pre><code>{{content}}</code></pre>
 	</body>
 </html>`
+
+const showGraphCommand = vscode.commands.registerCommand(
+	'wireplus.showGraph',
+	(wd, name) => {
+		const panel = vscode.window.createWebviewPanel(
+			'wireplusGraph',
+			'wireplus - Graph',
+			vscode.ViewColumn.One,
+			{ enableScripts: true },
+		);
+		exec(`wireplus graph . ${name}`, { cwd: wd },
+			(_, stdout, stderr) => {
+				console.log(stderr)
+				panel.webview.html = webviewTemplate.replace('{{content}}', stdout)
 			});
 	});
 
 const showDetailCommand = vscode.commands.registerCommand(
-	'exampleExtension.showDetail',
+	'wireplus.showDetail',
 	(wd, name) => {
 		const panel = vscode.window.createWebviewPanel(
-			'showDetails',
-			'Show Details',
+			'wireplusDetail',
+			'wireplus - Detail',
 			vscode.ViewColumn.One,
 			{ enableScripts: true },
 		);
 		exec(`wireplus detail . ${name}`, { cwd: wd },
 			(_, stdout, stderr) => {
 				console.log(stderr)
-				panel.webview.html = `<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="UTF-8">
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		<title>Show Detail</title>
-	</head>
-	<body>
-		<pre><code>${stdout}</code></pre>
-	</body>
-</html>`
+				panel.webview.html = webviewTemplate.replace('{{content}}', stdout)
 			});
 	});
 
@@ -75,15 +67,14 @@ export function activate(context: vscode.ExtensionContext) {
 		// args: ["lsp", "|", "tee", "/Users/taichimaeda/workspace/projects/freee/wireplus/stdout.log"],
 		options: { shell: true },
 	};
-
+	const outputChannel = vscode.window.createOutputChannel('wireplus Language Server');
 	const clientOptions: LanguageClientOptions = {
 		documentSelector: [{ scheme: 'file', language: 'go' }],
-		outputChannel: vscode.window.createOutputChannel('Example Language Server'),
+		outputChannel,
 	};
-
 	client = new LanguageClient(
-		'languageServerExample',
-		'Language Server Example',
+		'wireplusServer',
+		'wireplus Language Server',
 		serverOptions,
 		clientOptions
 	);

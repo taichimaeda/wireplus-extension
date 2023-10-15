@@ -13,13 +13,12 @@ import {
 
 let client: LanguageClient;
 
-const webviewTemplate = `
+const graphWebviewTemplate = `
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-		
 		<script src="https://d3js.org/d3.v5.min.js"></script>
 		<script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
 		<script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
@@ -34,6 +33,19 @@ const webviewTemplate = `
 	</body>
 </html>`;
 
+const detailWebviewTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>Show Detail</title>
+	</head>
+	<body>
+		<pre><p>{{content}}</p></pre>
+	</body>
+</html>`
+
 const showGraphCommand = vscode.commands.registerCommand(
 	'wireplus.showGraph',
 	(wd, name) => {
@@ -46,7 +58,7 @@ const showGraphCommand = vscode.commands.registerCommand(
 		exec(`wireplus graph . ${name}`, { cwd: wd },
 			(_, stdout, stderr) => {
 				console.log(stderr)
-				panel.webview.html = webviewTemplate.replace('{{content}}', stdout)
+				panel.webview.html = graphWebviewTemplate.replace('{{content}}', stdout)
 			});
 	});
 
@@ -62,7 +74,7 @@ const showDetailCommand = vscode.commands.registerCommand(
 		exec(`wireplus detail . ${name}`, { cwd: wd },
 			(_, stdout, stderr) => {
 				console.log(stderr)
-				panel.webview.html = webviewTemplate.replace('{{content}}', stdout)
+				panel.webview.html = detailWebviewTemplate.replace('{{content}}', stdout)
 			});
 	});
 

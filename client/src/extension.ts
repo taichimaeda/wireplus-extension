@@ -12,18 +12,27 @@ import {
 } from 'vscode-languageclient/node';
 
 let client: LanguageClient;
+
 const webviewTemplate = `
 <!DOCTYPE html>
 <html lang="en">
 	<head>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		
+		<script src="https://d3js.org/d3.v5.min.js"></script>
+		<script src="https://unpkg.com/@hpcc-js/wasm@0.3.11/dist/index.min.js"></script>
+		<script src="https://unpkg.com/d3-graphviz@3.0.5/build/d3-graphviz.js"></script>
 		<title>Show Graph</title>
 	</head>
 	<body>
-		<pre><code>{{content}}</code></pre>
+		<div id="graph" style="text-align: center;"></div>
+		<script>
+			d3.select("#graph").graphviz()
+				.renderDot(\`{{content}}\`);
+		</script>
 	</body>
-</html>`
+</html>`;
 
 const showGraphCommand = vscode.commands.registerCommand(
 	'wireplus.showGraph',

@@ -15,7 +15,7 @@
 			"type": "shell",
 			"command": "go build cmd/wireplus/main.go && mv -f main $GOPATH/bin/wireplus",
 			"options": {
-				"cwd": "${workspaceFolder}/../wireplus"
+				"cwd": "${workspaceFolder}/wireplus"
 			}
 		},
 		{

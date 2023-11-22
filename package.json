@@ -4,7 +4,7 @@
 	"description": "A language server example",
 	"author": "Microsoft Corporation",
 	"license": "MIT",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"icon": "icon.png",
 	"repository": {
 		"type": "git",

@@ -1,14 +1,16 @@
 {
-	"name": "lsp-sample",
+	"name": "wireplus-extension",
+	"displayName": "wireplus Extension",
 	"description": "A language server example",
 	"author": "Microsoft Corporation",
 	"license": "MIT",
 	"version": "1.0.0",
+	"icon": "icon.png",
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/Microsoft/vscode-extension-samples"
+		"url": "https://github.com/taichimaeda/wireplus-extension.git"
 	},
-	"publisher": "vscode-samples",
+	"publisher": "taichimaeda",
 	"categories": [],
 	"keywords": [
 		"multi-root ready"
@@ -17,7 +19,7 @@
 		"vscode": "^1.75.0"
 	},
 	"activationEvents": [
-		"onLanguage:plaintext"
+		"onLanguage:go"
 	],
 	"main": "./client/out/extension",
 	"contributes": {

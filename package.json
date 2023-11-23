@@ -1,10 +1,10 @@
 {
 	"name": "wireplus-extension",
 	"displayName": "wireplus Extension",
-	"description": "A language server example",
+	"description": "VSCode extension for wireplus",
 	"author": "Microsoft Corporation",
 	"license": "MIT",
-	"version": "1.0.2",
+	"version": "1.0.4",
 	"icon": "icon.png",
 	"repository": {
 		"type": "git",

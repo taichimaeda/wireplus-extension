@@ -17,7 +17,7 @@ import {
   graphWebviewTemplate,
 } from "./webview-templates";
 
-const WIREPLUS_VERSION = "v0.1.5";
+const WIREPLUS_VERSION = "v0.1.6";
 
 let client: LanguageClient;
 

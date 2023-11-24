@@ -3,7 +3,7 @@
  * Licensed under the MIT License. See License.txt in the project root for license information.
  * ------------------------------------------------------------------------------------------ */
 
-import { exec } from "child_process";
+import { exec, execSync, spawnSync } from "child_process";
 import * as vscode from "vscode";
 import {
   LanguageClient,
@@ -14,6 +14,8 @@ import {
   graphWebviewTemplate,
   detailWebviewTemplate,
 } from "./webview-templates";
+
+const WIREPLUS_VERSION = "v0.1.5";
 
 let client: LanguageClient;
 
@@ -49,7 +51,31 @@ const showDetailCommand = vscode.commands.registerCommand(
   }
 );
 
+function checkVersion() {
+  try {
+    const stdout = execSync("wireplus --version");
+    const line = stdout.toString().trim();
+    const version = line.replace("wireplus:", "").trim();
+    if (version !== WIREPLUS_VERSION) {
+      vscode.window.showErrorMessage(
+        `Error: wireplus Extension requires wireplus ${WIREPLUS_VERSION}, but found ${version}. 
+        Please install the latest version of wireplus by running: go install github.com/taichimaeda/wireplus/cmd/wireplus@latest`
+      );
+      return false;
+    }
+  } catch (error) {
+    vscode.window.showErrorMessage(
+      `Error: wireplus not found. 
+      Please install wireplus by running: go install github.com/taichimaeda/wireplus/cmd/wireplus@latest`
+    );
+    return false;
+  }
+  return true;
+}
+
 export function activate(context: vscode.ExtensionContext) {
+  if (!checkVersion()) return;
+
   context.subscriptions.push(showGraphCommand);
   context.subscriptions.push(showDetailCommand);
 

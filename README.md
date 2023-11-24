@@ -4,7 +4,7 @@ This is a VSCode extension for [wireplus](https://github.com/taichimaeda/wireplu
 
 ## Screenshot
 
-![Screenshot](https://user-images.githubusercontent.com/28210288/285507006-47874149-4d37-499d-b3ea-4f49efac2709.mov)
+https://github.com/taichimaeda/wireplus-extension/assets/28210288/2834f52c-a4b4-44ef-807f-9e778c4a1dff
 
 ## Quick Start
 

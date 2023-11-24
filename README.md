@@ -20,8 +20,8 @@ go install github.com/taichimaeda/wireplus/cmd/wireplus@latest
 
 ## Features
 
-- Display wire-related errors in the editor.
-- Show `graphviz` visualization of wire `NewSet` and `Build`.
-- Show analysis for wire `Build`.
+- Display wire-related diagnostics in the editor.
+- Show analysis for individual `wire.Build`.
+- Show [graphviz](https://graphviz.org/) or [cytospace](https://js.cytoscape.org/) visualization of `wire.NewSet` and `wire.Build`.
 - Jump to the definition of a wire dependency from `injector.go` (WIP).
   - Currently disabled as it often jumps to the wrong place and takes too long to complete.

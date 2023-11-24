@@ -98,8 +98,8 @@ function updateSettings(
 
   // Read and write file asynchronously to avoid blocking the UI
   if (!fs.existsSync(settingsPath)) {
-    fs.mkdirSync(path.dirname(settingsPath));
-    fs.writeFile(settingsPath, `{"go.buildTags": ${buildTags}}`, () => {
+    fs.mkdirSync(path.dirname(settingsPath), { recursive: true });
+    fs.writeFile(settingsPath, `{"go.buildTags": "${buildTags}"}`, () => {
       statusBarItem.text = buildTags;
       statusBarItem.tooltip = `wireplus: go.buildTags set to ${buildTags}`;
       statusBarItem.show();

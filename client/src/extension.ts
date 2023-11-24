@@ -10,8 +10,10 @@ import {
   LanguageClientOptions,
   ServerOptions,
 } from "vscode-languageclient/node";
-import { detailWebviewTemplate } from "./webviews/detail";
-import { graphWebviewTemplate } from "./webviews/graph";
+import {
+  graphWebviewTemplate,
+  detailWebviewTemplate,
+} from "./webview-templates";
 
 let client: LanguageClient;
 
@@ -24,16 +26,10 @@ const showGraphCommand = vscode.commands.registerCommand(
       vscode.ViewColumn.One,
       { enableScripts: true }
     );
-    exec(
-      `wireplus graph --format cytospace . ${name}`,
-      { cwd: wd },
-      (_, stdout, stderr) => {
-        panel.webview.html = graphWebviewTemplate.replace(
-          "{{content}}",
-          stdout
-        );
-      }
-    );
+    const command = `wireplus graph --format cytospace . ${name}`;
+    exec(command, { cwd: wd }, (_, stdout, stderr) => {
+      panel.webview.html = graphWebviewTemplate.replace("{{content}}", stdout);
+    });
   }
 );
 
@@ -46,7 +42,8 @@ const showDetailCommand = vscode.commands.registerCommand(
       vscode.ViewColumn.One,
       { enableScripts: true }
     );
-    exec(`wireplus detail . ${name}`, { cwd: wd }, (_, stdout, stderr) => {
+    const command = `wireplus detail . ${name}`;
+    exec(command, { cwd: wd }, (_, stdout, stderr) => {
       panel.webview.html = detailWebviewTemplate.replace("{{content}}", stdout);
     });
   }
@@ -59,7 +56,6 @@ export function activate(context: vscode.ExtensionContext) {
   const serverOptions: ServerOptions = {
     command: "wireplus",
     args: ["lsp"],
-    // args: ["lsp", "|", "tee", "/Users/taichimaeda/workspace/projects/freee/wireplus/stdout.log"],
     options: { shell: true },
   };
   const outputChannel = vscode.window.createOutputChannel(

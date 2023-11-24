@@ -1,3 +1,5 @@
+// TODO: Use webpack raw loader to load these templates
+
 export const graphWebviewTemplate = `
 <!DOCTYPE html>
 <html lang="en">
@@ -6,9 +8,6 @@ export const graphWebviewTemplate = `
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Show Graph</title>
     <script src="https://unpkg.com/cytoscape/dist/cytoscape.min.js"></script>
-    <script src="https://unpkg.com/popper.js@1.14.7/dist/umd/popper.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/cytoscape-popper@1.0.4/cytoscape-popper.min.js"></script>
-    <script src="https://unpkg.com/tippy.js@4.0.1/umd/index.all.min.js"></script>
     <style>
       #cy {
         height: 100%;
@@ -23,7 +22,7 @@ export const graphWebviewTemplate = `
   <body>
     <div id="cy"></div>
     <script>
-      var cy = (window.cy = cytoscape({
+      const cy = (window.cy = cytoscape({
         container: document.getElementById("cy"),
         boxSelectionEnabled: false,
         style: [
@@ -37,6 +36,8 @@ export const graphWebviewTemplate = `
               textValign: "center",
               textHalign: "center",
               color: "#EEEEEE",
+              textWrap: "wrap",
+              textJustification: "center",
             },
           },
           {
@@ -58,40 +59,25 @@ export const graphWebviewTemplate = `
           name: "breadthfirst",
           directed: true,
         },
-        elements: {{content}},
+        // Placeholder for the webview content
+        elements: {{content}}
       }));
-
-      cy.ready(function () {
-        cy.nodes().forEach(function (ele) {
-          let ref = ele.popperRef();
-          ele.tippy = tippy(ref, {
-            trigger: "manual",
-            interactive: true,
-            content: () => {
-              let content = document.createElement("div");
-              content.innerHTML = ele.data().tooltip;
-              return content;
-            },
-          });
-        });
-      });
-
-      cy.elements().unbind("mouseover");
-      cy.elements().bind(
-        "mouseover",
-        (event) => event.target.tippy && event.target.tippy.show()
-      );
-      cy.elements().unbind("mousedown");
-      cy.elements().bind(
-        "mousedown",
-        (event) => event.target.tippy && event.target.tippy.hide()
-      );
-      cy.elements().unbind("mouseout");
-      cy.elements().bind(
-        "mouseout",
-        (event) => event.target.tippy && event.target.tippy.hide()
-      );
     </script>
+  </body>
+</html>
+`;
+
+export const detailWebviewTemplate = `
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Show Detail</title>
+  </head>
+  <body>
+    <!-- Placeholder for the webview content -->
+    <pre><p>{{content}}</p></pre>
   </body>
 </html>
 `;

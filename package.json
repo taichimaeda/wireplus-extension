@@ -2,7 +2,7 @@
 	"name": "wireplus-extension",
 	"displayName": "wireplus Extension",
 	"description": "VSCode extension for wireplus",
-	"author": "Microsoft Corporation",
+	"author": "Taichi Maeda",
 	"license": "MIT",
 	"version": "1.0.4",
 	"icon": "icon.png",

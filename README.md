@@ -4,9 +4,7 @@ This is a VSCode extension for [wireplus](https://github.com/taichimaeda/wireplu
 
 ## Screenshot
 
-<video width="100%" height="100%" controls>
-  <source src="https://user-images.githubusercontent.com/28210288/285507006-47874149-4d37-499d-b3ea-4f49efac2709.mov" type="video/mp4">
-</video>
+![Screenshot](https://user-images.githubusercontent.com/28210288/285507006-47874149-4d37-499d-b3ea-4f49efac2709.mov)
 
 ## Quick Start
 

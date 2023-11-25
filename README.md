@@ -12,11 +12,15 @@ https://github.com/taichimaeda/wireplus-extension/assets/28210288/b4174139-b239-
 
 ## Quick Start
 
-Make sure you have installed `wireplus`.
+Make sure you have installed the latest version of [wireplus](https://github.com/taichimaeda/wireplus):
 
 ```bash
-go install github.com/taichimaeda/wireplus/cmd/wireplus@latest
+~$ go install github.com/taichimaeda/wireplus/cmd/wireplus@latest
+~$ wireplus --version
+wireplus: v0.1.6
 ```
+
+You now can install the extension from the [marketplace](https://marketplace.visualstudio.com/items?itemName=taichimaeda.wireplus-extension).
 
 ## Features
 
@@ -24,3 +28,4 @@ go install github.com/taichimaeda/wireplus/cmd/wireplus@latest
 - Show analysis for individual `wire.Build`.
 - Show [graphviz](https://graphviz.org/) or [cytospace](https://js.cytoscape.org/) visualization of `wire.NewSet` and `wire.Build`.
 - Automatically switch `go.buildTags` so that IntelliSense works on both injector files and generated files.
+  - Note that this feature creates `.vscode/settings.json` in your workspace.
